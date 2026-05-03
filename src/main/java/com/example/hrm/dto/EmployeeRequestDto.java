@@ -1,44 +1,25 @@
-package com.example.hrm.model;
+package com.example.hrm.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "employees")
-public class Employee {
+public class EmployeeRequestDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @NotBlank(message = "Name is required")
     private String name;
 
+    @NotBlank(message = "Position is required")
     private String position;
 
+    @NotNull(message = "Salary is required")
+    @Positive(message = "Salary must be positive")
     private BigDecimal salary;
 
     private LocalDate hireDate;
-
-    @PrePersist
-    public void prePersist() {
-        if (hireDate == null) {
-            hireDate = LocalDate.now();
-        }
-    }
-
-    public Employee() {}
-
-    public Employee(String name, String position, BigDecimal salary, LocalDate hireDate) {
-        this.name = name;
-        this.position = position;
-        this.salary = salary;
-        this.hireDate = hireDate;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
